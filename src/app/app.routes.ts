@@ -13,7 +13,10 @@ const appRoutes: Routes = [
   },
   {
     path: completedTodoPath,
-    loadChildren: './todo-list-completed/todo-list-completed.module#TodoListCompletedModule'
+    loadChildren: () =>
+      import('./todo-list-completed/todo-list-completed.module').then(
+        (m) => m.TodoListCompletedModule
+      )
   }
 ];
 

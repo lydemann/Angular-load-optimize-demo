@@ -6,15 +6,16 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from 'environments/environment';
+import { LoadableModule } from 'ngx-loadable';
 
 import { AppInitService } from '@app/app-init.service';
 import { AppComponent } from '@app/app.component';
 import { appRouterModule } from '@app/app.routes';
 import { CoreModule } from '@app/core/core.module';
-import { FooterComponent } from '@app/footer/footer.component';
 import { NavbarComponent } from '@app/navbar/navbar.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { TodoListModule } from '@app/todo-list/todo-list.module';
+import { lazyLoadingConfig } from './lazy-loading.config';
 
 export function init_app(appLoadService: AppInitService) {
   return () => appLoadService.init();
@@ -27,7 +28,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   );
 }
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FooterComponent],
+  declarations: [AppComponent, NavbarComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -36,6 +37,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HttpClientModule,
     appRouterModule,
     TodoListModule,
+    LoadableModule.forRoot({ fileMappings: lazyLoadingConfig }),
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
